@@ -11,7 +11,7 @@ public class MainController {
   
   @GetMapping("/test")
   public String testPage() {
-    log.debug("======= Test Page =====");
+    log.debug("======= Teest Page =====");
     return "index.html";
   }
 }
