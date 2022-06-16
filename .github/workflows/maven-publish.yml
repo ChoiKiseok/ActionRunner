@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: bumil-ks-desktop
+    runs-on: bumil-lab-desktop
     permissions:
       contents: read
       packages: write
