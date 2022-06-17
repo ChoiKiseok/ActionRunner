@@ -31,7 +31,8 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Publish to Maven
-      run: java -jar target/data.jar &
+      run: cmd /c "START /b java -jar target/data.jar"
+    # run: java -jar target/data.jar
 
     # - name: Publish to GitHub Packages Apache Maven
     #   run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
