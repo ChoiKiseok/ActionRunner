@@ -30,8 +30,8 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to Maven
-      run: cmd /c "START /b killPort.bat"
+    # - name: Publish to Maven
+    #   run: cmd /c "START /b killPort.bat"
     # run: java -jar target/data.jar
 
     # - name: Publish to GitHub Packages Apache Maven
