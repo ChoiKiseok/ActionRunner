@@ -19,7 +19,6 @@
     </style>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>통계청 - 공유서비스</title>
-
     <link
       type="text/css"
       rel="stylesheet"
@@ -48,108 +47,106 @@
       language="JavaScript"
       src="https://kosis.kr/openapi/devGuide/devGuide01/js/ajax.js"
     ></script>
-    <script type="text/javascript" language="JavaScript">
-      var mapData;
-
-      // window onload 되었을때 실행 함수
-      dojo.addOnLoad(function () {
-        // 통계목록 리스트를 조회하기위해 함수를 호출한다.
-        getSubList("MT_ZTITLE", 0, "");
-      });
-
-      /****************************************************
-       * 통계목록 리스트 조회 함수
-       * parameter : vwcd - 서비스뷰 코드 (통계목록구분)
-       * listLev - 목록 레벨
-       * parentId - 시작목록 Id
-       ****************************************************/
-      function getSubList(vwcd, listLev, parentId) {
-        $.ajax({
-          url: "/api",
-          data: "listId=" + parentId,
-          type: "get",
-          dataType: "json",
-          async: false,
-          success: function(result) {
-            console.log(result);
-            mapData = result;
-          },
-          error: function(err) {
-            console.log(err);
-          }
-        })
-
-        // 통계목록 리스트를 화면에 출력하기 위한 함수
-        makeNode(Number(listLev) + 1);
-      }
-
-      /****************************************************
-       * 통계목록 리스트를 화면에 출력하기 위한 함수
-       * parameter : listLev - 목록 레벨
-       ****************************************************/
-      function makeNode(listLev) {
-        var nodeInfo = "";
-
-        nodeInfo = nodeInfo + "<ul>";
-
-        for (var cnt = 0; cnt < mapData.length; cnt++) {
-          nodeInfo = nodeInfo + "<li>";
-          if (mapData[cnt].tblId != '') {
-            nodeInfo =
-              nodeInfo +
-              "<img src='http://kosis.kr/openapi/devGuide/devGuide01/image/stats.gif'> <a target='_balnk' href=\"http://kosis.kr/start.jsp?orgId=" +
-              mapData[cnt].orgId +
-              "&tblId=" +
-              mapData[cnt].tblId +
-              "&vw_cd=" +
-              mapData[cnt].vwCd +
-              "&up_id=" +
-              mapData[cnt].UP_ID +
-              '">' +
-              mapData[cnt].tblNm +
-              "</a>";
-          } else {
-            nodeInfo =
-              nodeInfo +
-              "<img src='http://kosis.kr/openapi/devGuide/devGuide01/image/folder.gif'> <a href=\"javascript:getSubList('" +
-              mapData[cnt].vwCd +
-              "', '" +
-              listLev +
-              "', '" +
-              mapData[cnt].listId +
-              "');\">" +
-              mapData[cnt].listNm +
-              "</a>";
-          }
-          nodeInfo = nodeInfo + "</li>";
-        }
-        nodeInfo = nodeInfo + "</ul>";
-
-        var r_node = document.getElementById("content"); //
-        var v_node = document.getElementById("depth" + listLev);
-        
-        if (typeof v_node != "undefined" && v_node != null) {
-          v_node.innerHTML = nodeInfo;
-        } else {
-          v_node = document.createElement("div");
-          v_node.setAttribute("id", "depth" + listLev);
-          v_node.className = "category0" + listLev;
-          v_node.style.height = '500px';
-          v_node.style.background = 'none';
-          v_node.innerHTML = nodeInfo;
-          r_node.appendChild(v_node);
-        }
-
-        var nodeCount = document.getElementsByTagName("div").length;
-
-        for (var cnt = Number(listLev) + 1; cnt < nodeCount; cnt++) {
-          if (document.getElementById("depth" + cnt) != null)
-            r_node.removeChild(document.getElementById("depth" + cnt));
-        }
-      }
-    </script>
   </head>
   <body>
     <div id="content"></div>
   </body>
+  <script type="text/javascript" language="JavaScript">
+    var mapData;
+
+    // window onload 되었을때 실행 함수
+    dojo.addOnLoad(function () {
+      // 통계목록 리스트를 조회하기위해 함수를 호출한다.
+      getSubList("MT_ZTITLE", 0, "203_203A_555_55501");
+    });
+
+    /****************************************************
+     * 통계목록 리스트 조회 함수
+     * parameter : vwcd - 서비스뷰 코드 (통계목록구분)
+     * listLev - 목록 레벨
+     * parentId - 시작목록 Id
+     ****************************************************/
+    function getSubList(vwcd, listLev, parentId) {
+      $.ajax({
+        url: "/api",
+        data: "listId=" + parentId,
+        type: "get",
+        dataType: "json",
+        async: false,
+        success: function(result) {
+          mapData = result;
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      })
+
+      // 통계목록 리스트를 화면에 출력하기 위한 함수
+      makeNode(Number(listLev) + 1);
+    }
+
+    /****************************************************
+     * 통계목록 리스트를 화면에 출력하기 위한 함수
+     * parameter : listLev - 목록 레벨
+     ****************************************************/
+    function makeNode(listLev) {
+      var nodeInfo = "";
+
+      nodeInfo = nodeInfo + "<ul>";
+      for (var cnt = 0; cnt < mapData.length; cnt++) {
+        nodeInfo = nodeInfo + "<li>";
+        if (mapData[cnt].tblId != '') {
+          nodeInfo =
+            nodeInfo +
+            "<img src='http://kosis.kr/openapi/devGuide/devGuide01/image/stats.gif'> <a target='_balnk' href=\"http://kosis.kr/start.jsp?orgId=" +
+            mapData[cnt].orgId +
+            "&tblId=" +
+            mapData[cnt].tblId +
+            "&vw_cd=" +
+            mapData[cnt].vwCd +
+            "&up_id=" +
+            mapData[cnt].UP_ID +
+            '">' +
+            mapData[cnt].tblNm +
+            "</a>";
+        } else {
+          nodeInfo =
+            nodeInfo +
+            "<img src='http://kosis.kr/openapi/devGuide/devGuide01/image/folder.gif'> <a href=\"javascript:getSubList('" +
+            mapData[cnt].vwCd +
+            "', '" +
+            listLev +
+            "', '" +
+            mapData[cnt].listId +
+            "');\">" +
+            mapData[cnt].listNm +
+            "</a>";
+        }
+        nodeInfo = nodeInfo + "</li>";
+      }
+      nodeInfo = nodeInfo + "</ul>";
+
+      var r_node = document.getElementById("content"); //
+      var v_node = document.getElementById("depth" + listLev);
+      
+      if (typeof v_node != "undefined" && v_node != null) {
+        v_node.innerHTML = nodeInfo;
+      } else {
+        v_node = document.createElement("div");
+        v_node.setAttribute("id", "depth" + listLev);
+        v_node.className = "category0" + listLev;
+        v_node.style.height = '500px';
+        v_node.style.background = 'none';
+        v_node.innerHTML = nodeInfo;
+        r_node.appendChild(v_node);
+      }
+
+      var nodeCount = document.getElementsByTagName("div").length;
+
+      for (var cnt = Number(listLev) + 1; cnt < nodeCount; cnt++) {
+        if (document.getElementById("depth" + cnt) != null)
+          r_node.removeChild(document.getElementById("depth" + cnt));
+      }
+    }
+  </script>
 </html>

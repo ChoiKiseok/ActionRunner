@@ -20,7 +20,7 @@ public class MainController {
 
   @GetMapping("/popup")
   public String kosisPopup() {
-    return "devPopup";
+    return "subjectStatsTree";
   }
 
   @PostMapping("/guide")

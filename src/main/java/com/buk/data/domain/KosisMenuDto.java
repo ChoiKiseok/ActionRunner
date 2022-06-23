@@ -1,6 +1,8 @@
 package com.buk.data.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
@@ -9,6 +11,8 @@ import lombok.Data;
 @Entity(name = "tb_kosis_menu")
 public class KosisMenuDto {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long idx;
   private String listId;      //목록ID
   private String listNm;      //목록명
   private String vwCd;        //서비스뷰
@@ -17,4 +21,5 @@ public class KosisMenuDto {
   private String tblId;       //통계표ID
   private String tblNm;       //통계표명
   private String recTblSe;    //추천통계표여부
+  private String upId;        //부모ID
 }

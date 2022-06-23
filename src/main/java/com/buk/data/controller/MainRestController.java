@@ -23,8 +23,8 @@ public class MainRestController {
   }
 
   @PostMapping("/api")
-  public List<KosisMenuDto> getMenuList(String listId) {
-    List<KosisMenuDto> menuList = kosisApiService.getMenuList(listId);
+  public List<KosisMenuDto> getMenuList() {
+    List<KosisMenuDto> menuList = kosisApiService.getMenuList();
     return menuList;
   }
 }

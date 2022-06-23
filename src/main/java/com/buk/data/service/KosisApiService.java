@@ -38,7 +38,8 @@ public class KosisApiService {
                             .append("&apiKey=")
                             .append("N2VmY2ZiYjFiYzNhMDQ3M2Q1NGI4YTBiZWI5YjI0ZTc=")
                             .append("&vwCd=")
-                            .append("MT_ZTITLE")
+                            //.append("MT_ZTITLE")
+                            .append("MT_OTITLE")
                             .append("&parentListId=")
                             .append(parentListId)
                             .append("&format=json")
@@ -67,9 +68,6 @@ public class KosisApiService {
     for(int i=0; i<bodys.length; i++) {
       if(i < bodys.length-1)
         bodys[i] = bodys[i] + "}";
-      System.out.println();
-      System.out.println(bodys[i]);
-      System.out.println("====================");
       JSONObject jsonObject = new JSONObject(bodys[i]);
 
       String listId = "";
@@ -85,8 +83,6 @@ public class KosisApiService {
       while(keys.hasNext()){
         String key = keys.next().toString();
         String value = jsonObject.get(key).toString();
-
-        System.out.println(key + ": " + value);
 
         switch(key) {
           case "LIST_ID":
@@ -127,8 +123,8 @@ public class KosisApiService {
       menu.setRecTblSe(recTblSe);
       menu.setTblId(tblId);
       menu.setTblNm(tblNm);
+      menu.setUpId(parentListId);
 
-      System.out.println(menu.toString());
       menuList.add(menu);
     }
 
@@ -136,7 +132,7 @@ public class KosisApiService {
     return menuList;
   }
 
-  public List<KosisMenuDto> getMenuList(String listId) {
-    return kosisMenuRepository.findByListIdStartsWith(listId);
+  public List<KosisMenuDto> getMenuList() {
+    return kosisMenuRepository.findAll();
   }
 }
