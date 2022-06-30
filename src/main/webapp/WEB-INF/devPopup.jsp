@@ -68,7 +68,7 @@
      ****************************************************/
     function getSubList(vwcd, listLev, parentId) {
       $.ajax({
-        url: "/api",
+        url: "http://133.186.143.213:8880/api",
         data: "listId=" + parentId,
         type: "get",
         dataType: "json",

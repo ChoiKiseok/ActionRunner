@@ -1,6 +1,7 @@
 package com.buk.data.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,10 @@ import com.buk.data.repository.KosisMenuRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class KosisApiService {
   @Autowired
   private KosisMenuRepository kosisMenuRepository;
@@ -134,5 +138,66 @@ public class KosisApiService {
 
   public List<KosisMenuDto> getMenuList() {
     return kosisMenuRepository.findAll();
+  }
+
+  public List<Map<String, String>> kosisApi() throws Exception {
+    List<Map<String, String>> mapList = new ArrayList<>();
+    RestTemplate restTemplate = new RestTemplate();
+    String url = new StringBuilder()
+                            .append("https://kosis.kr/openapi/statisticsData.do?")
+                            .append("method=")
+                            .append("getList")
+                            .append("&apiKey=")
+                            .append("N2VmY2ZiYjFiYzNhMDQ3M2Q1NGI4YTBiZWI5YjI0ZTc=")
+                            .append("&jsonVD=")
+                            .append("Y")
+                            .append("&format=json")
+                            .append("&userStatsId=")
+                            .append("cks1649/555/DT_55501_B001031/2/1/20220624105443")
+                            .append("&prdSe=")
+                            .append("Y")
+                            .append("&newEstPrdCnt=")
+                            .append("1")
+                            .toString();
+    log.info(url);
+
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    
+    MultiValueMap<String, List<Object>> body = new LinkedMultiValueMap<>();
+    
+    HttpEntity<?> requestMessage = new HttpEntity<>(body, httpHeaders);
+
+    ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestMessage, String.class);
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+
+    String json = objectMapper.writeValueAsString(response);
+    Object obj = objectMapper.readValue(json, Object.class);
+
+    Map<String, String> map = objectMapper.convertValue(obj, Map.class);
+    
+    String responseBody = map.get("body").replace("[", "").replace("]", "");
+    String[] bodys = responseBody.split("},");
+
+    for(int i=0; i<bodys.length; i++) {
+      if(i < bodys.length-1)
+        bodys[i] = bodys[i] + "}";
+      JSONObject jsonObject = new JSONObject(bodys[i]);
+      
+      Iterator keys = jsonObject.keys();
+      Map<String, String> jsonMap = new HashMap<>();
+      while(keys.hasNext()){
+        String key = keys.next().toString();
+        String value = jsonObject.get(key).toString();
+
+        jsonMap.put(key, value);
+      }
+      mapList.add(jsonMap);
+    }
+    log.info("{}", mapList);
+
+    return mapList;
   }
 }
