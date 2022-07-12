@@ -12,6 +12,13 @@ public class MainController {
   @GetMapping("/popup")
   public String kosisPopup() {
     return "subjectStatsTree";
+    // return "devPopup";
+  }
+
+  @GetMapping("/popup_test")
+  public String kosisPopupTest() {
+    // return "subjectStatsTree";
+    return "devPopup";
   }
 
   @GetMapping("/juminStat")

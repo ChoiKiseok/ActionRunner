@@ -151,9 +151,9 @@
   </body>
 </html>
 
-// cross domain 제약을 우회하기 위한 jsp (devGuidePop.jsp) <%@ page
-contentType="text/html; charset=utf-8" pageEncoding="utf-8" %> <%@ taglib
-prefix="c" uri="http://java.sun.com/jstl/core" %>
+// cross domain 제약을 우회하기 위한 jsp (devGuidePop.jsp) 
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <c:set var="method">
   <%out.println(request.getParameter("method") == null ? "" :
@@ -179,4 +179,5 @@ prefix="c" uri="http://java.sun.com/jstl/core" %>
 <c:import
   url="https://kosis.kr/openapi/statisticsList.do?method=getList&apiKey=N2VmY2ZiYjFiYzNhMDQ3M2Q1NGI4YTBiZWI5YjI0ZTc=&vwCd=MT_ZTITLE&parentListId=A&format=json"
   charEncoding="utf-8"
+  var="content"
 />

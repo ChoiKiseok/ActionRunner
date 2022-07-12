@@ -23,35 +23,43 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/dtree.css">
     <script src="/js/dtree.js"></script>
-    <script src="/data/stat.json"></script>
+    
   </head>
   <body>
     <div id="content"></div>
+    <button onclick="getSubList('203_203A_555_55501_A');">버튼</button>
   </body>
   <script type="text/javascript" language="JavaScript">
+    var mapData;
 
     // window onload 되었을때 실행 함수
-    window.onload = function () {
-      // 통계목록 리스트를 조회하기위해 함수를 호출한다.
-      getSubList();
-    };
+    window.onload = function() {
+      getSubList('203_203A_555_55501');
+    }
 
     /****************************************************
      * 통계목록 리스트 조회 함수
-     * parameter : vwcd - 서비스뷰 코드 (통계목록구분)
-     * listLev - 목록 레벨
-     * parentId - 시작목록 Id
      ****************************************************/
-    function getSubList() {
-      mapData = data;
-      //mapData.push(...${content2});
+    function getSubList(parentListId) {
+      $.ajax({
+        url: "/cors_protect.jsp",
+        type: "POST",
+        dataType: "json",
+        async: false,
+        success: function(result) {
+          mapData = result;
+        },
+        error: function(request, status, error) {
+          console.log(request);
+          console.log(status);
+          console.log(error);
+        }
+      })
+      
       // 통계목록 리스트를 화면에 출력하기 위한 함수
       makeNode();
     }
-    /****************************************************
-     * 통계목록 리스트를 화면에 출력하기 위한 함수
-     * parameter : listLev - 목록 레벨
-     ****************************************************/
+
     /*dTree 정의 및 root 트리 생성
     * dTree.add(p1, p2, p3, p4, p5, p6, p7)
     * p1 : id값
@@ -71,8 +79,10 @@
         var nodeNm = '';    //노드 이름
         var id = '';        //노드ID
         var img = '';       //이미지 경로
+        
 
-        if (mapData[cnt].TBL_ID != '') {
+        if (mapData[cnt].TBL_ID != undefined) {
+          console.log(mapData[cnt]);
           nodeInfo =
             "http://kosis.kr/start.jsp?orgId=" +
             mapData[cnt].ORG_ID +
@@ -86,11 +96,12 @@
           id = mapData[cnt].TBL_ID;
           img = '/img/dtree/page.gif';
         } else {
+          console.log(mapData[cnt]);
           nodeNm = mapData[cnt].LIST_NM;
           id = mapData[cnt].LIST_ID;
           img = '/img/dtree/folder.gif';
         }
-        d.add(id, mapData[cnt].UP_ID, nodeNm, nodeInfo, '', '_blank', img);
+        d.add(id, "203_203A_555_55501", nodeNm, nodeInfo, '', '_blank', img);
       }
       document.getElementById('content').innerHTML = d;
       d.closeAll();
