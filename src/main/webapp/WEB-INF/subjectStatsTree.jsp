@@ -32,16 +32,16 @@
 
     // window onload 되었을때 실행 함수
     window.onload = function() {
-      getSubList();
+      getSubList("203_203A_555_55501");
     }
 
     /****************************************************
      * 통계목록 리스트 조회 함수
      ****************************************************/
-    function getSubList() {
+    function getSubList(parentListId) {
       $.ajax({
-        url: "/api",
-        type: "post",
+        url: "/api?listId=" + parentListId,
+        type: "get",
         dataType: "json",
         async: false,
         success: function(result) {
@@ -74,6 +74,7 @@
         var nodeNm = '';    //노드 이름
         var id = '';        //노드ID
         var img = '';       //이미지 경로
+        var type = '';      //새 창 열기
 
         if (mapData[cnt].tblId != '') {
           nodeInfo =
@@ -88,12 +89,15 @@
           nodeNm = mapData[cnt].tblNm;
           id = mapData[cnt].tblId;
           img = '/img/dtree/page.gif';
+          type = '_blank';
         } else {
+          nodeInfo = "javascript:getSubList('"+ mapData[cnt].listId +"');"
           nodeNm = mapData[cnt].listNm;
           id = mapData[cnt].listId;
           img = '/img/dtree/folder.gif';
+
         }
-        d.add(id, mapData[cnt].upId, nodeNm, nodeInfo, '', '_blank', img);
+        d.add(id, mapData[cnt].upId, nodeNm, nodeInfo, '', type, img);
       }
       document.getElementById('content').innerHTML = d;
       d.closeAll();

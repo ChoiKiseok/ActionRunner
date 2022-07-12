@@ -12,15 +12,15 @@ import javax.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
-@Entity(name = "tb_buktoday")
+@Entity(name = "tb_buk_today")
 public class BukToday {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idx;
-  private int titleCd;
+  // private int titleCd;
   private int value;
   private String baseMonth;
-  private LocalDate dt;
+  private LocalDate createDt;
 
   @ManyToOne
   @JoinColumn(name = "title_cd")

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity(name="tb_buktoday_cd")
+@Entity(name="tb_buk_today_cd")
 public class BukTodayCd {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)  
