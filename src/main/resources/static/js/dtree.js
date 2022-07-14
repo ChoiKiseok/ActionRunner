@@ -90,9 +90,9 @@ function dTree(objName) {
 
 		folderOpen	: '/img/dtree/folderopen.gif',
 
-		node				: '/dtree/img/page.gif',
+		// node				: '/dtree/img/page.gif',
 
-		empty				: '/dtree/img/empty.gif',
+		// empty				: '/dtree/img/empty.gif',
 
 		line				: '/img/dtree/line.gif',
 
@@ -106,11 +106,11 @@ function dTree(objName) {
 
 		minus				: '/img/dtree/minus.gif',
 
-		minusBottom	: '/img/dtree/minusbottom.gif',
+		minusBottom	: '/img/dtree/minusbottom.gif'
 
-		nlPlus			: '/dtree/img/nolines_plus.gif',
+		// nlPlus			: '/dtree/img/nolines_plus.gif',
 
-		nlMinus			: '/dtree/img/nolines_minus.gif'
+		// nlMinus			: '/dtree/img/nolines_minus.gif'
 
 	};
 

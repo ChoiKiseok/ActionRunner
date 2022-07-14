@@ -28,7 +28,8 @@
     <div id="content"></div>
   </body>
   <script type="text/javascript" language="JavaScript">
-    var mapData;
+    var datas = [];
+    var cntData = -1;
 
     // window onload 되었을때 실행 함수
     window.onload = function() {
@@ -45,14 +46,33 @@
         dataType: "json",
         async: false,
         success: function(result) {
-          mapData = result;
+          // mapData = result;
+          if(result[0].tblId != '' || result[0].listId != ''){
+            datas.push(result);
+            getMapData(result);
+          }
         },
         error: function(err) {
           console.log(err);
         }
       })
       // 통계목록 리스트를 화면에 출력하기 위한 함수
-      makeNode();
+      makeNode(datas);
+    }
+
+    function getMapData(result) {
+      for(var i=0; i<result.length; i++) {
+        if(result[0].tblId == '' && result[0].listId == '') break;
+        var id = '';
+        if(result[i].tblId != '') {
+          id = result[i].tblId;
+        } else {
+          id = result[i].listId;
+        }
+        if(result[0].listId != '') {
+          getSubList(id);
+        }
+      }
     }
 
     /*dTree 정의 및 root 트리 생성
@@ -67,37 +87,37 @@
     */
     var d = new dTree('d');
     d.add("203_203A_555_55501", -1, '주제별통계');
-    function makeNode() {
-      
-      for (var cnt = 0; cnt < mapData.length; cnt++) {
-        var nodeInfo = "";  //통계청 홈페이지로 이동하는 URL
-        var nodeNm = '';    //노드 이름
-        var id = '';        //노드ID
-        var img = '';       //이미지 경로
-        var type = '';      //새 창 열기
-
-        if (mapData[cnt].tblId != '') {
-          nodeInfo =
-            "http://kosis.kr/start.jsp?orgId=" +
-            mapData[cnt].orgId +
-            "&tblId=" +
-            mapData[cnt].tblId +
-            "&vw_cd=" +
-            mapData[cnt].vwCd +
-            "&up_id=" +
-            mapData[cnt].upId;
-          nodeNm = mapData[cnt].tblNm;
-          id = mapData[cnt].tblId;
-          img = '/img/dtree/page.gif';
-          type = '_blank';
-        } else {
-          nodeInfo = "javascript:getSubList('"+ mapData[cnt].listId +"');"
-          nodeNm = mapData[cnt].listNm;
-          id = mapData[cnt].listId;
-          img = '/img/dtree/folder.gif';
-
+    function makeNode(mapData) {
+      for(var i=0; i<mapData.length; i++) {
+        for (var cnt = 0; cnt < mapData[i].length; cnt++) {
+          var nodeInfo = "";  //통계청 홈페이지로 이동하는 URL
+          var nodeNm = '';    //노드 이름
+          var id = '';        //노드ID
+          var img = '';       //이미지 경로
+          var type = '';      //새 창 열기
+  
+          if (mapData[i][cnt].tblId != '') {
+            nodeInfo =
+              "http://kosis.kr/start.jsp?orgId=" +
+              mapData[i][cnt].orgId +
+              "&tblId=" +
+              mapData[i][cnt].tblId +
+              "&vw_cd=" +
+              mapData[i][cnt].vwCd +
+              "&up_id=" +
+              mapData[i][cnt].upId;
+            nodeNm = mapData[i][cnt].tblNm;
+            id = mapData[i][cnt].tblId;
+            img = '/img/dtree/page.gif';
+            type = '_blank';
+            //d.add(id, mapData[i][cnt].upId, nodeNm, nodeInfo, '', type, img);
+          } else {
+            nodeNm = mapData[i][cnt].listNm;
+            id = mapData[i][cnt].listId;
+            img = '/img/dtree/folder.gif';
+          }
+          d.add(id, mapData[i][cnt].upId, nodeNm, nodeInfo, '', type, img);
         }
-        d.add(id, mapData[cnt].upId, nodeNm, nodeInfo, '', type, img);
       }
       document.getElementById('content').innerHTML = d;
       d.closeAll();
